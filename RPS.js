@@ -1,3 +1,10 @@
+const rockBtn = document.getElementById('rock');
+const paperBtn = document.getElementById('paper');
+const scissorsBtn = document.getElementById('scissors');
+const humScore = document.getElementById('humScore');
+const compScore = document.getElementById('compScore');
+let humanChoice = "";
+
 function getComputerChoice(){
     let compChoice = Math.round(Math.random() *2) +1;
     let result = "";
@@ -13,52 +20,53 @@ function getComputerChoice(){
     return result;
 }
 
-function getHumanChoice(){
-    let humanChoice = prompt().toLowerCase();
+rockBtn.addEventListener('click', () =>{
+    playRound('rock', getComputerChoice());
+})
 
-    if(humanChoice === "rock" || humanChoice === "paper" || humanChoice === "scissors"){
-        return humanChoice;
-    }
-    else{
-        alert("Please input 'Rock', 'Paper' or 'Scissors'")
-        return getHumanChoice();
-    }
-}
+paperBtn.addEventListener('click', () =>{
+    playRound('paper', getComputerChoice());
+
+})
+
+scissorsBtn.addEventListener('click', () =>{
+    playRound('scissors', getComputerChoice());
+})
 
 let humanScore = 0;
 let computerScore = 0;
+humScore.textContent = 'Human Score: '+ humanScore;
+compScore.textContent = "Computer Score: "+ computerScore;
 
 function playRound(humanChoice, computerChoice){
     if(humanChoice === computerChoice){
-        alert("That was tie! let's go again!")
-        return;
+        alert("That was tie! let's go again!");
     }
-    else if((humanChoice === "rock" && computerChoice === "scissors") || (humanChoice === "paper" && computerChoice === "rock") || (humanChoice === "scissors" && computerChoice === "paper")){
-        alert("One point for you");
-        humanScore += 1;
+    else if((humanChoice === "rock" && computerChoice === "scissors") || 
+            (humanChoice === "paper" && computerChoice === "rock") || 
+            (humanChoice === "scissors" && computerChoice === "paper")){
+                alert("One point for you");
+                humanScore += 1;
+                humScore.innerText = 'Human Score: '+ humanScore;
     }
     else{
         alert("Computer gets one point :(");
         computerScore += 1;
-    }
-}
-
-function playGame(){
-    while (humanScore < 5 && computerScore < 5) {
-        let computerChoice = getComputerChoice();
-        console.log("A little cheat cheat for you ;)... Computer choice:", computerChoice);
-        let humanChoice = getHumanChoice();
-        playRound(humanChoice, computerChoice);
+        compScore.innerText = "Computer Score: "+ computerScore;
     }
 
-    if(humanScore === 5){
+    if (humanScore === 5) {
         alert("Player Wins!!");
-    }
-    else if(computerScore === 5){
+        resetGame();
+    } else if (computerScore === 5) {
         alert("Computer Wins! :/");
+        resetGame();
     }
 }
 
-alert("We'll play until one gets 5 points ;)")
-playGame();
-alert("Please refresh page to play again!");
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    humScore.textContent = 'Human Score: '+ humanScore;
+    compScore.textContent = "Computer Score: "+ computerScore;
+}
